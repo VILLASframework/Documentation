@@ -8,15 +8,23 @@ During this lab we will use the following hook functions:
 | Name		| Description |
 | :--		| :-- |
 | `average` 	| Calculates average over some signals. |
+| `cast` 	| Cast signal types. |
 | `restart` 	| Call restart hooks for current path. |
 | `ts` 		| Overwrite origin timestamp of samples with receive timestamp. |
 | `stats` 	| Collect statistics for the current path. |
 | `decimate` 	| Downsamping by integer factor. |
+| `dp` 	| Transform to/from dynamic phasor. |
+| `ebm` 	| Energy based metric. |
+| `fix` 	| Fix received data by adding missing fields. |
 | `fix_ts` 	| Update timestamps of sample if not set. |
+| `gate` 	| Skip samples only if an enable signal is under a specified threshold. |
+| `jitter` 	| Hook to calculate jitter between GTNET-SKT GPS timestamp and Villas node NTP timestamp. |
+| `limit_rate` 	| Limits the rate of sending signals. |
 | `skip_first` 	| Skip the first samples. |
 | `stats_send` 	| Send path statistics to another node. |
 | `drop` 		| Drop messages with reordered sequence numbers. |
 | `convert` 	| Convert message from / to floating-point / integer. |
+| `scale` 	| Scale signals by a factor and add offset. |
 | `shift_seq` 	| Shift sequence number of samples. |
 | `map` 		| Remap values and / or add header, timestamp values to the sample. |
 | `print` 	| Print the message to stdout. |
@@ -74,6 +82,34 @@ $ villas signal sine | villas hook average -o offset=0 -o signals=0,1,2,3,4
 
 ```bash
 $ villas signal sine | villas hook shift_ts mode=origin offset=10.0
+```
+## Caste signal type (cast)
+
+```bash
+$ villas signal -l 10 -r 10 -F 3 -v 1 random > signals_mixed.dat
+$ villas-hook cast -o new_name=test -o new_unit=V -o new_type=integer -o signal=1 < signals_mixed.dat
+
+```
+## Transformation to dynamic phasor (dp)
+
+```bash
+$ villas signal -l 10 -r 10 -F 3 sine > dp_in.dat
+$ villas hook dp -o inverse=true -o f0=3 -o rate=10 -o signal=0 -o harmonics=0,1,3,5,7 < dp_out.dat >dp_in2.dat
+
+```
+## Limit the rate of sending signals (limit_rate)
+
+```bash
+$ villas-signal -r 1000 -l 1000 -n sine > limit_rate_in.dat
+$ villas-hook -o rate=10 -o mode=origin limit_rate < limit_rate_in.dat > limit_rate_out.dat
+
+```
+## Scale signals by a factor and add offset (scale)
+
+```bash
+$ villas signal -l 10 -r 10 -F 3 sine > scale_in.dat
+$ villas-hook scale -o scale=100 -o offset=55 -o signal=signal0 < scale_in.dat > scale_out.dat
+
 ```
 
 Every sample has three timestamps associated with it:
