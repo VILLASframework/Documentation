@@ -216,7 +216,33 @@ With this setting the attachment of built-in hooks can be disabled.
 
 Each node should define a list of signals which it **receives**.
 
-There are two ways to specify the input signals of a node:
+There are three ways to specify the input signals of a node:
+
+### Format string
+
+The easiest way to specify the signals, is by using a format string.
+The format string consists of one ore more characters which define the type for the signal corresponding to the position of the character in the string.
+
+| Character | Type            | Setting for full and list mode |
+|:---       |:---             |:---
+| `f`       | Floating point | "float" |
+| `b`       | Boolean | "boolean" |
+| `i`       | Integer | "integer" |
+| `c`       | Complex Floating point | "complex" |
+
+Optionally, the characters can be prefixed by an integer for easier repitition.
+
+The following signal definition defines 15 signals, of which the first 12 are floating point and the last 3 are integer values.
+
+```
+nodes = {
+	test_node = {
+		in = {
+			signals = "12f3i"
+		}
+	}
+}
+```
 
 ### Simple
 
@@ -254,19 +280,19 @@ nodes = {
 
 Each signal is described by the following settings:
 
-### in.signals[].name (string) = undefined {#node-config-node-signals-name}
+#### in.signals[].name (string) = undefined {#node-config-node-signals-name}
 
 A name which describes the signal.
 
-### in.signals[].unit (string) = undefined {#node-config-node-signals-unit}
+#### in.signals[].unit (string) = undefined {#node-config-node-signals-unit}
 
 The unit of the signal. E.g. `V`, `A`, `Rad`.
 
-### in.signals[].format (string: "float" | "integer" | "boolean" | "complex" | "auto") = auto {#node-config-node-signals-format}
+#### in.signals[].format (string: "float" | "integer" | "boolean" | "complex" | "auto") = auto {#node-config-node-signals-format}
 
 The data-type of the signal.
 
-### in.signals[].enabled (boolean) = true {#node-config-node-signals-enabled}
+#### in.signals[].enabled (boolean) = true {#node-config-node-signals-enabled}
 
 Signals can be disabled which causes them to be ignored.
 
