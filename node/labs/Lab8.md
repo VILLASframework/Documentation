@@ -172,10 +172,12 @@ This can be visualized in the waveforms below:
 $ villas signal -l 10 -r 10 -F 2 sine > gate_in.dat
 $ villas hook gate -o signal=0 -o mode=above < gate_in.dat > gate_out_above.dat
 $ villas hook gate -o signal=0 -o mode=above < gate_in.dat > gate_out_below.dat
-@image html VILLASgate.svg height=150px
-@image html VILLASgate_above.svg height=150px
-@image html VILLASgate_below.svg height=150px
 ```
+
+@image html Plots/VILLASgate.svg height=150px
+@image html Plots/VILLASgate_above.svg height=150px
+@image html Plots/VILLASgate_below.svg height=150px
+
 The modes rising edge and falling edge allow signal values to pass on rising edge and falling edge respectively. It is demonstrated by the examples below: 
 
 ```bash
