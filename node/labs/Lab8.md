@@ -165,42 +165,31 @@ below
 rising_edge
 falling_edge
 
-The 'above' mode allows only the signal values which are greater than zero. Similarly the 'below' mode allows only the signal values which are greater than zero.
+The 'above' mode allows only the signal values which are greater than the threshold. By default the threshold is set to 0. Similarly the 'below' mode allows only the signal values which are lesser than the threshold.
 This can be visualized in the waveforms below:
 
 ```bash
-$ villas signal -l 10 -r 10 -F 2 sine > gate_in.dat
-$ villas hook gate -o signal=0 -o mode=above < gate_in.dat > gate_out_above.dat
-$ villas hook gate -o signal=0 -o mode=above < gate_in.dat > gate_out_below.dat
+$ villas signal -l 200 -r 200 -F 2 sine > gate_in.dat
+$ villas hook gate -o signal=0 -o mode=above -o threshold=0.5 < gate_in.dat > gate_out_above.dat
+$ villas hook gate -o signal=0 -o mode=below -o threshold=0.5 < gate_in.dat > gate_out_below.dat
 ```
 
-@image html Plots/VILLASgate.svg height=150px
-@image html Plots/VILLASgate_above.svg height=150px
-@image html Plots/VILLASgate_below.svg height=150px
+@image html Plots/gate_in.svg height=150px
+@image html Plots/gate_out_above.svg height=150px
+@image html Plots/gate_out_below.svg height=150px
 
-The modes rising edge and falling edge allow signal values to pass on rising edge and falling edge respectively. It is demonstrated by the examples below: 
+The modes rising edge and falling edge allow signal values to pass on rising edge and falling edge respectively. It is demonstrated by the examples and waveforms below: 
 
 ```bash
-$ villas signal -l 10 -r 10 -F 2 sine > gate_in.dat
+$ villas signal -l 200 -r 200 -F 2 sine > gate_in.dat
 $ villas hook gate -o signal=0 -o mode=rising_edge < gate_in.dat > gate_out_re.dat
 $ villas hook gate -o signal=0 -o mode=falling_edge < gate_in.dat > gate_out_re.dat
 ```
-The output of the files above give the following output. The output values of the generated files clearly demonstrate the gate hook functionality. 
 
+@image html Plots/gate_in.svg height=150px
+@image html Plots/gate_out_re.svg height=150px
+@image html Plots/gate_out_fe.svg height=150px
 
-|gate_in.dat | gate_out_re.dat | gate_out_fe.dat |           
-|:----------:|:-------------:|:------:|          
-| 1564492174.077273743(0)	0.956521 | - | - |            
-| 1564492174.177273103(1)	0.572976 | 1564492174.177273103+1.302759e+03(1)	0.572976 | - |            
-| 1564492174.276425883(2)	-0.593868 | 1564492174.276425883+1.302662e+03(2)	-0.593868 | - |
-| 1564492174.380380038(3)	-0.931825 | 1564492174.380380038+1.302558e+03(3)	-0.931825 | - |
-| 1564492174.478924481(4)	0.038928 | - | 1564492174.478924481+1.230899e+03(4)	0.038928 |
-| 1564492174.580058697(5)	0.966140 | - | 1564492174.580058697+1.230799e+03(5)	0.966140 |
-| 1564492174.677380660(6)	0.571868 | - | 1564492174.677380660+1.302262e+03(6)	0.571868 |
-| 1564492174.776829318(7)	-0.597939 | - | 1564492174.776829318+1.302163e+03(7)	-0.597939 |
-| 1564492174.881216102(8)	-0.927960 | - | 1564492174.881216102+1.302059e+03(8)	-0.927960 |
-| 1564492174.976555376(9)	0.009166 | 1564492174.976555376+1.230403e+03(9)	0.009166 | -  |
-        
 
 @htmlonly
 <asciinema-player rows="25" cols="500" poster="npt:0:1"  src="recordings/terminal/villas_hook_decimate.json">
